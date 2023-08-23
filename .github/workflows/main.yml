@@ -5,6 +5,9 @@ on: [push]
 env:
   AWS_REGION: us-east-1                  # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: financial_services          # set this to your Amazon ECR repository name
+  ECS_TASK_DEFINITION: .github/workflows/task-definition.json      # set this to the path to your Amazon ECS task definition                                           # file, e.g. .aws/task-definition.json
+  CONTAINER_NAME: portfolio_manager           # set this to the name of the container in the
+  ECS_CLUSTER: financial_services_cluster                 # set this to your Amazon ECS cluster name
 
 jobs:
   build:
@@ -46,3 +49,11 @@ jobs:
           docker build -f src/main/docker/Dockerfile --build-arg JAR_FILE=target/*.jar -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
