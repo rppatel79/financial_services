@@ -1,0 +1,156 @@
+<mxfile host="app.diagrams.net" modified="2023-08-24T19:02:24.679Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="e5DVSagXU0epSdsQTmLS" version="21.6.9" type="device">
+  <diagram name="Page-1" id="h2J9EFm_6XxeQfi8i16s">
+    <mxGraphModel dx="1114" dy="987" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-1" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.ecs;fillColor=#F58534;gradientColor=none;" vertex="1" parent="1">
+          <mxGeometry x="585" y="342" width="72" height="67.5" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-2" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.ecr;fillColor=#F58534;gradientColor=none;" vertex="1" parent="1">
+          <mxGeometry x="585" y="212.4" width="69" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-3" value="GitHub Action&lt;br&gt;financial_services/main/.github/workflows/main.yml" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.webicons.github;gradientColor=#DFDEDE" vertex="1" parent="1">
+          <mxGeometry x="300" y="182" width="102.4" height="102.4" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-4" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Docker.svg;" vertex="1" parent="1">
+          <mxGeometry x="589" y="119.99999999999999" width="50" height="41" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-5" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.lambda_function;fillColor=#F58534;gradientColor=none;" vertex="1" parent="1">
+          <mxGeometry x="544" y="540.5" width="69" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-6" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#60A337;gradientDirection=north;fillColor=#277116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.iot_events;" vertex="1" parent="1">
+          <mxGeometry x="240" y="538" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-7" value="https://github.com/rppatel79/financial_services/" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.github_code;pointerEvents=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="142" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-8" value="https://github.com/rppatel79/yahoofinance-api/" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.github_code;pointerEvents=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="223.39999999999998" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-10" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-3" target="gsDbtouyAnaaJxOAzvaL-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="472" as="sourcePoint" />
+            <mxPoint x="350" y="422" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-13" value="1,&amp;nbsp; Build a docker image" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-10">
+          <mxGeometry x="0.0614" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-11" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-3" target="gsDbtouyAnaaJxOAzvaL-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="610" y="482" as="sourcePoint" />
+            <mxPoint x="660" y="432" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-14" value="2.&amp;nbsp; Deploy to ECR" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-11">
+          <mxGeometry x="-0.0964" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-12" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-3" target="gsDbtouyAnaaJxOAzvaL-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="412" y="246" as="sourcePoint" />
+            <mxPoint x="595" y="256" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-15" value="3.&amp;nbsp; Deploy to ECS" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-12">
+          <mxGeometry x="0.3125" relative="1" as="geometry">
+            <mxPoint x="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-16" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.api_gateway;fillColor=#D9A741;gradientColor=none;" vertex="1" parent="1">
+          <mxGeometry x="414" y="530" width="76.5" height="93" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-17" value="7:00 PM PST" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.alarm_clock;" vertex="1" parent="1">
+          <mxGeometry x="213" y="510.5" width="27" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-18" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;shape=mxgraph.mscae.enterprise.website_generic;fillColor=#7D7D7D;" vertex="1" parent="1">
+          <mxGeometry x="236" y="680" width="102.27" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-19" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="120" y="680" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-20" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-6" target="gsDbtouyAnaaJxOAzvaL-16">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="460" as="sourcePoint" />
+            <mxPoint x="390" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-21" value="Stop Service" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-20">
+          <mxGeometry x="0.0208" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-22" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.65;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-16" target="gsDbtouyAnaaJxOAzvaL-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="328" y="587" as="sourcePoint" />
+            <mxPoint x="424" y="587" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-23" value="Stop Service" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-22">
+          <mxGeometry x="0.0208" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-24" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-5" target="gsDbtouyAnaaJxOAzvaL-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="474" y="587" as="sourcePoint" />
+            <mxPoint x="554" y="587" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-25" value="Stop Service(Desired task =0)&lt;br&gt;Start Service (Desired task =1)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-24">
+          <mxGeometry x="0.0208" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-26" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.733;exitY=0.422;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-18" target="gsDbtouyAnaaJxOAzvaL-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="780" as="sourcePoint" />
+            <mxPoint x="640" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-27" value="Start/Stop Service" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-26">
+          <mxGeometry x="0.1164" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-28" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.02;entryY=0.278;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-19" target="gsDbtouyAnaaJxOAzvaL-18">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="40" y="720" as="sourcePoint" />
+            <mxPoint x="90" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-30" value="Start Service" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-28">
+          <mxGeometry x="-0.1601" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-29" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.078;entryY=0.633;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-19" target="gsDbtouyAnaaJxOAzvaL-18">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="719" as="sourcePoint" />
+            <mxPoint x="248" y="715" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-31" value="Stop Service" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-29">
+          <mxGeometry x="0.0585" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-32" value="" style="endArrow=classic;html=1;rounded=0;elbow=horizontal;" edge="1" parent="1" source="gsDbtouyAnaaJxOAzvaL-2" target="gsDbtouyAnaaJxOAzvaL-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="760" y="260" as="sourcePoint" />
+            <mxPoint x="770" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gsDbtouyAnaaJxOAzvaL-33" value="Purge&lt;br&gt;historical&lt;br&gt;images" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gsDbtouyAnaaJxOAzvaL-32">
+          <mxGeometry x="-0.0037" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
