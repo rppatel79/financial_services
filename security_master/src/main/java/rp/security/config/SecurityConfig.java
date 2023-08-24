@@ -1,9 +1,9 @@
-package org.rp.security.config;
+package rp.security.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.rp.security.Security;
-import org.rp.security.repo.dao.SecurityEntity;
+import rp.security.Security;
+import rp.security.repo.dao.SecurityEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import yahoofinance.Stock;
@@ -24,7 +24,7 @@ public class SecurityConfig {
     public ModelMapper createEntityToSecurityMapper()
     {
         ModelMapper stockMapper =  new ModelMapper();
-        TypeMap<SecurityEntity,Security> typeMap =stockMapper.createTypeMap(SecurityEntity.class, Security.class);
+        TypeMap<SecurityEntity, Security> typeMap =stockMapper.createTypeMap(SecurityEntity.class, Security.class);
         typeMap.addMapping(SecurityEntity::getName,Security::setName);
         typeMap.addMapping(SecurityEntity::getSymbol,Security::setSymbol);
 

@@ -1,4 +1,4 @@
-package org.rp.security;
+package rp.security;
 
 public class Security {
     private String name;

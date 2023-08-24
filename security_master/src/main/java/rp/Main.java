@@ -1,4 +1,4 @@
-package org.rp;
+package rp;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
