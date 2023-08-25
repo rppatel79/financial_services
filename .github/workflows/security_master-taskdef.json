@@ -1,0 +1,56 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "security_master",
+            "image": "541752449603.dkr.ecr.us-east-1.amazonaws.com/security_master",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "security_master-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/security_master",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "family": "financial_services",
+    "taskRoleArn": "arn:aws:iam::541752449603:role/financialservices-ecsTaskRole",
+    "executionRoleArn": "arn:aws:iam::541752449603:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "volumes": [],
+    "placementConstraints": [],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "tags": [
+        {
+            "key": "app",
+            "value": "financialservices"
+        },
+        {
+            "key": "ecs:taskDefinition:createdFrom",
+            "value": "ecs-console-v2"
+        }
+    ]
+}

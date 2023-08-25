@@ -1,14 +1,14 @@
 {
     "containerDefinitions": [
         {
-            "name": "financial_services",
-            "image": "541752449603.dkr.ecr.us-east-1.amazonaws.com/financial_services",
+            "name": "market_data",
+            "image": "541752449603.dkr.ecr.us-east-1.amazonaws.com/market_data",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "financial_services-80-tcp",
-                    "containerPort": 80,
-                    "hostPort": 80,
+                    "name": "market_data-90-tcp",
+                    "containerPort": 90,
+                    "hostPort": 90,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
@@ -21,7 +21,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/financial_services",
+                    "awslogs-group": "/ecs/market_data",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }
