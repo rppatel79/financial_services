@@ -37,7 +37,7 @@ jobs:
           distribution: 'temurin'
       - name: Build with Maven
         run: mvn package
-        working-directory: security_master
+        working-directory: market_data
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
