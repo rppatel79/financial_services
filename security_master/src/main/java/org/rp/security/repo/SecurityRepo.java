@@ -1,7 +1,7 @@
-package rp.security.repo;
+package org.rp.security.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import rp.security.repo.dao.SecurityEntity;
+import org.rp.security.repo.dao.SecurityEntity;
 
 import java.util.List;
 

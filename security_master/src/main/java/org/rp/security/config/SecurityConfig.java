@@ -1,9 +1,9 @@
-package rp.security.config;
+package org.rp.security.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import rp.security.dao.Security;
-import rp.security.repo.dao.SecurityEntity;
+import org.rp.security.dao.Security;
+import org.rp.security.repo.dao.SecurityEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import yahoofinance.Stock;

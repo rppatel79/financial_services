@@ -1,4 +1,4 @@
-package rp.security.repo.dao;
+package org.rp.security.repo.dao;
 
 import jakarta.persistence.*;
 

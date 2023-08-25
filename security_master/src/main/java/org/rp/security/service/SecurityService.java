@@ -1,9 +1,9 @@
-package rp.security.service;
+package org.rp.security.service;
 
 import org.modelmapper.ModelMapper;
-import rp.security.dao.Security;
-import rp.security.repo.dao.SecurityEntity;
-import rp.security.repo.SecurityRepo;
+import org.rp.security.dao.Security;
+import org.rp.security.repo.dao.SecurityEntity;
+import org.rp.security.repo.SecurityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import yahoofinance.YahooFinance;

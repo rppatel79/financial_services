@@ -1,7 +1,7 @@
-package rp.security.controller;
+package org.rp.security.controller;
 
-import rp.security.dao.Security;
-import rp.security.service.SecurityService;
+import org.rp.security.dao.Security;
+import org.rp.security.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
