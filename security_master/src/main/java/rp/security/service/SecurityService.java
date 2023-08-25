@@ -1,7 +1,7 @@
 package rp.security.service;
 
 import org.modelmapper.ModelMapper;
-import rp.security.Security;
+import rp.security.dao.Security;
 import rp.security.repo.dao.SecurityEntity;
 import rp.security.repo.SecurityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class SecurityService {
     private ModelMapper entityToSecurityMapper;
 
 
-    public Security getSecurity(int id) throws IOException
+    public Security getSecurity(int id)
     {
         List<Security> security = convertToSecurity(List.of(securityRepo.getReferenceById(id)));
         if (security.size() != 1)
@@ -49,7 +49,7 @@ public class SecurityService {
         return convertToSecurity(securities);
     }
 
-    private List<Security> convertToSecurity(List<SecurityEntity> securityEntities) throws IOException
+    private List<Security> convertToSecurity(List<SecurityEntity> securityEntities)
     {
         List<Security> securities = new ArrayList<>(securityEntities.size());
         for (SecurityEntity security : securityEntities)
