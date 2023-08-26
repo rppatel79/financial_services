@@ -19,11 +19,17 @@ public class SecurityController
     @Autowired
     private SecurityService securityService;
 
-    @GetMapping(value="/security_service/{symbol}")
+    @GetMapping(value="/security_service/symbol={symbol}")
     public ResponseEntity<List<Security>> getSecurity(@PathVariable String symbol) throws IOException
     {
         List<Security> ret = securityService.getSecurityBySymbol(symbol);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/security_service/id={secId}")
+    public ResponseEntity<Security> getSecurityById(@PathVariable int secId)
+    {
+        Security s = securityService.getSecurity(secId);
+        return new ResponseEntity<>(s,HttpStatus.OK);
+    }
 }
