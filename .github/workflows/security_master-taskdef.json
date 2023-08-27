@@ -28,7 +28,7 @@
             }
         }
     ],
-    "family": "financial_services",
+    "family": "security_master",
     "taskRoleArn": "arn:aws:iam::541752449603:role/financialservices-ecsTaskRole",
     "executionRoleArn": "arn:aws:iam::541752449603:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
