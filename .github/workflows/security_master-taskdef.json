@@ -21,14 +21,14 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/security_master",
+                    "awslogs-group": "/ecs/security_master_service",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }
             }
         }
     ],
-    "family": "financial_services",
+    "family": "security_master",
     "taskRoleArn": "arn:aws:iam::541752449603:role/financialservices-ecsTaskRole",
     "executionRoleArn": "arn:aws:iam::541752449603:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",

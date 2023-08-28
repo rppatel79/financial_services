@@ -21,14 +21,14 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/market_data",
+                    "awslogs-group": "/ecs/market_data_service",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }
             }
         }
     ],
-    "family": "financial_services",
+    "family": "market_data",
     "taskRoleArn": "arn:aws:iam::541752449603:role/financialservices-ecsTaskRole",
     "executionRoleArn": "arn:aws:iam::541752449603:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
