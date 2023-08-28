@@ -60,6 +60,7 @@ public class MarketDataService
     public HistoricQuote getClosePrice(int securityId, LocalDate date) throws MarketDataServiceException
     {
         try {
+            System.out.println("Connecting to URI ["+securityMasterURI+"]");
             URI url = new URI(securityMasterURI+ "/security_service/id=" + securityId);
             Security security = restTemplate.getForObject(url, Security.class);
             if (security == null)
