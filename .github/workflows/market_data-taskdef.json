@@ -14,7 +14,10 @@
                 }
             ],
             "essential": true,
-            "environment": [],
+            "environment": [
+                "name": "securitymaster.uri",
+                "value": "http://security_master.financial_services_cluster:80"
+            ],
             "mountPoints": [],
             "volumesFrom": [],
             "logConfiguration": {
