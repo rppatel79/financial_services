@@ -8,7 +8,7 @@
                 {
                     "name": "market_data-90-tcp",
                     "containerPort": 90,
-                    "hostPort": 80,
+                    "hostPort": 90,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
