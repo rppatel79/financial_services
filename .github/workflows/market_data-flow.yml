@@ -2,7 +2,9 @@ name: Market Data CI
 
 on:
   push:
-   paths: market_data/**
+   paths:
+    - 'market_data/**'
+    - '.github/**'
 
 env:
   AWS_REGION: us-east-1                  # set this to your preferred AWS region, e.g. us-west-1
