@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
+import yahoofinance.histquotes.Interval;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,6 +18,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,23 +41,10 @@ public class MarketDataService
 
     public HistoricQuote getClosePriceBySymbol(String symbol,LocalDate localDate) throws MarketDataServiceException
     {
-        try {
-            yahoofinance.Stock stock = YahooFinance.get(symbol);
-
-            Calendar calendar = DateUtils.convertLocalDateToCalendar(localDate);
-
-            List<HistoricalQuote> historyQuoteList = stock.getHistory(calendar);
-            List<HistoricQuote> quotes = historyQuoteList.stream()
-                    .map(historicalQuote -> historicQuoteMapper.map(historicalQuote, HistoricQuote.class)).toList();
-
-            if (quotes.size() != 1)
-                throw new MarketDataServiceException("Unable to find [" + symbol + "] on [" + localDate + "]");
-            return quotes.get(0);
-        }
-        catch (IOException exception)
-        {
-            throw new MarketDataServiceException(exception);
-        }
+        List<HistoricQuote> quotes =getClosePriceBySymbol(symbol,localDate,localDate.plus(1, ChronoUnit.DAYS));
+        if (quotes.size() != 1)
+            throw new MarketDataServiceException("Unable to find [" + symbol + "] on [" + localDate + "]");
+        return quotes.get(0);
     }
 
     public HistoricQuote getClosePrice(int securityId, LocalDate date) throws MarketDataServiceException
@@ -71,5 +61,27 @@ public class MarketDataService
         {
             throw new MarketDataServiceException(e);
         }
+    }
+
+
+    public List<HistoricQuote> getClosePriceBySymbol(String symbol,LocalDate startDate, LocalDate endDate) throws MarketDataServiceException
+    {
+        try {
+            yahoofinance.Stock stock = YahooFinance.get(symbol);
+
+            Calendar startDateCal = DateUtils.convertLocalDateToCalendar(startDate);
+            Calendar endDateCal = DateUtils.convertLocalDateToCalendar(endDate);
+
+
+            List<HistoricalQuote> historyQuoteList = null;
+                historyQuoteList = stock.getHistory(startDateCal,endDateCal, Interval.DAILY);
+            List<HistoricQuote> quotes = historyQuoteList.stream()
+                    .map(historicalQuote -> historicQuoteMapper.map(historicalQuote, HistoricQuote.class)).toList();
+
+            return quotes;
+        } catch (IOException e) {
+            throw new MarketDataServiceException(e);
+        }
+
     }
 }
