@@ -30,7 +30,13 @@
         <dependency>
             <groupId>com.github.rppatel79</groupId>
             <artifactId>yahoofinance-api</artifactId>
-            <version>v3.8.0</version>
+            <version>v3.9.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.rppatel79</groupId>
+            <artifactId>RiskManagement</artifactId>
+            <version>v.0.2</version>
         </dependency>
 
         <dependency>
