@@ -8,9 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import yahoofinance.options.dao.OptionContract;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SecurityController
@@ -31,5 +34,11 @@ public class SecurityController
     {
         Security s = securityService.getSecurity(secId);
         return new ResponseEntity<>(s,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/security_service/underlying={underlyingSymbol}")
+    public Map<LocalDate, Map<OptionContract.OptionType, List<OptionContract>>>  getSecurityOptions(@PathVariable String underlyingSymbol) throws IOException
+    {
+        return securityService.getSecurityOptions(underlyingSymbol);
     }
 }

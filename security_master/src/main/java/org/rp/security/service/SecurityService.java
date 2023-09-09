@@ -7,10 +7,13 @@ import org.rp.security.repo.SecurityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import yahoofinance.YahooFinance;
+import yahoofinance.options.dao.OptionContract;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SecurityService {
@@ -47,6 +50,10 @@ public class SecurityService {
         System.out.println(securities);
 
         return convertToSecurity(securities);
+    }
+    public Map<LocalDate, Map<OptionContract.OptionType, List<OptionContract>>>  getSecurityOptions(String symbol) throws IOException
+    {
+        return YahooFinance.getOptionContracts(symbol);
     }
 
     private List<Security> convertToSecurity(List<SecurityEntity> securityEntities)

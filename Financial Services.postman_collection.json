@@ -72,6 +72,25 @@
 					"response": []
 				},
 				{
+					"name": "Get Option by Underlying",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SD_HOSTNAME}}:{{SD_PORT}}/security_service/symbol=APPL",
+							"host": [
+								"{{SD_HOSTNAME}}"
+							],
+							"port": "{{SD_PORT}}",
+							"path": [
+								"security_service",
+								"symbol=APPL"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get By Id",
 					"request": {
 						"method": "GET",
