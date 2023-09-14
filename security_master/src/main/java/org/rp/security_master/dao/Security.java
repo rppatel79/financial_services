@@ -1,4 +1,4 @@
-package org.rp.security.dao;
+package org.rp.security_master.dao;
 
 public class Security {
     private String name;

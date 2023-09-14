@@ -1,7 +1,8 @@
-package org.rp.security.controller;
+package org.rp.security_master.controller;
 
-import org.rp.security.dao.Security;
-import org.rp.security.service.SecurityService;
+import org.rp.security_master.dao.Security;
+import org.rp.security_master.exception.SecurityMasterServiceException;
+import org.rp.security_master.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class SecurityController
     private SecurityService securityService;
 
     @GetMapping(value="/security_service/symbol={symbol}")
-    public ResponseEntity<List<Security>> getSecurity(@PathVariable String symbol) throws IOException
+    public ResponseEntity<List<Security>> getSecurity(@PathVariable String symbol) throws SecurityMasterServiceException
     {
         List<Security> ret = securityService.getSecurityBySymbol(symbol);
         return new ResponseEntity<>(ret, HttpStatus.OK);
@@ -36,9 +37,16 @@ public class SecurityController
         return new ResponseEntity<>(s,HttpStatus.OK);
     }
 
-    @GetMapping(value = "/security_service/underlying={underlyingSymbol}")
-    public Map<LocalDate, Map<OptionContract.OptionType, List<OptionContract>>>  getSecurityOptions(@PathVariable String underlyingSymbol) throws IOException
+    @GetMapping(value = "/security_service/options/underlying={underlyingSymbol}")
+    public Map<LocalDate, Map<OptionContract.OptionType, List<OptionContract>>>  getAllOptionsContracts(@PathVariable String underlyingSymbol) throws SecurityMasterServiceException
     {
-        return securityService.getSecurityOptions(underlyingSymbol);
+        return securityService.getAllOptions(underlyingSymbol);
     }
+
+    @GetMapping(value = "/security_service/options/optionSymbol={optionSymbol}")
+    public OptionContract  getOptionsContracts(@PathVariable String optionSymbol) throws SecurityMasterServiceException
+    {
+        return securityService.getOption(optionSymbol.substring(0,3),optionSymbol);
+    }
+
 }

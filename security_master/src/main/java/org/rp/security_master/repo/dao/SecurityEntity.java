@@ -1,4 +1,4 @@
-package org.rp.security.repo.dao;
+package org.rp.security_master.repo.dao;
 
 import jakarta.persistence.*;
 
@@ -9,7 +9,7 @@ public class SecurityEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable=true)
+    @Column()
     private String name;
     @Column(nullable=false)
     private String symbol;
