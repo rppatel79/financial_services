@@ -10,8 +10,7 @@ public record OptionContract (OptionType optionType,
                                 BigDecimal strike,
                                 String currency,
                                 String contractSize,
-                                LocalDate expiration,
-                                MarketData marketData)
+                                LocalDate expiration)
 {
-    public enum OptionType {Call,Put};
+    public enum OptionType {Call,Put}
 }
