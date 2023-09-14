@@ -1,9 +1,10 @@
-package org.rp.service;
+package org.rp.market_data.service;
 
 import org.modelmapper.ModelMapper;
-import org.rp.dao.HistoricQuote;
-import org.rp.dao.security.Security;
-import org.rp.utils.DateUtils;
+import org.rp.market_data.dao.HistoricQuote;
+import org.rp.market_data.dao.security.Security;
+import org.rp.market_data.exception.MarketDataServiceException;
+import org.rp.market_data.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,16 +14,12 @@ import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MarketDataService
@@ -39,7 +36,7 @@ public class MarketDataService
     @Autowired
     private RestTemplate restTemplate;
 
-    public HistoricQuote getClosePriceBySymbol(String symbol,LocalDate localDate) throws MarketDataServiceException
+    public HistoricQuote getClosePriceBySymbol(String symbol, LocalDate localDate) throws MarketDataServiceException
     {
         List<HistoricQuote> quotes =getClosePriceBySymbol(symbol,localDate,localDate.plus(1, ChronoUnit.DAYS));
         if (quotes.size() != 1)
@@ -73,12 +70,9 @@ public class MarketDataService
             Calendar endDateCal = DateUtils.convertLocalDateToCalendar(endDate);
 
 
-            List<HistoricalQuote> historyQuoteList = null;
-                historyQuoteList = stock.getHistory(startDateCal,endDateCal, Interval.DAILY);
-            List<HistoricQuote> quotes = historyQuoteList.stream()
+            List<HistoricalQuote> historyQuoteList = stock.getHistory(startDateCal,endDateCal, Interval.DAILY);
+            return historyQuoteList.stream()
                     .map(historicalQuote -> historicQuoteMapper.map(historicalQuote, HistoricQuote.class)).toList();
-
-            return quotes;
         } catch (IOException e) {
             throw new MarketDataServiceException(e);
         }

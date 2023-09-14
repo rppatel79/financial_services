@@ -1,4 +1,4 @@
-package org.rp.utils;
+package org.rp.market_data.utils;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

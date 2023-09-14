@@ -1,4 +1,4 @@
-package org.rp.dao;
+package org.rp.market_data.dao;
 
 import java.math.BigDecimal;
 import java.util.Calendar;

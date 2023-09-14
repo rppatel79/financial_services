@@ -1,4 +1,4 @@
-package org.rp.service;
+package org.rp.market_data.exception;
 
 public class MarketDataServiceException extends Exception
 {

@@ -1,4 +1,4 @@
-package org.rp.config;
+package org.rp.market_data.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
