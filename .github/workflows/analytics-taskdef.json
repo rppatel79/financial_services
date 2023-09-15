@@ -6,9 +6,9 @@
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "analytics-95-tcp",
-                    "containerPort": 95,
-                    "hostPort": 95,
+                    "name": "analytics-1095-tcp",
+                    "containerPort": 1095,
+                    "hostPort": 1095,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
@@ -17,11 +17,11 @@
             "environment": [
                 {
                     "name": "securitymaster.uri",
-                    "value": "http://security_master.financial_services_cluster:80"
+                    "value": "http://security_master.financial_services_cluster:1080"
                 },
                 {
                     "name": "marketdata.uri",
-                    "value": "http://market_data.financial_services_cluster:90"
+                    "value": "http://market_data.financial_services_cluster:1090"
                 }
             ],
             "mountPoints": [],
