@@ -1,6 +1,7 @@
 package org.rp.market_data.controller;
 
 import org.rp.market_data.dao.HistoricQuote;
+import org.rp.market_data.dao.security.options.MarketData;
 import org.rp.market_data.service.MarketDataService;
 import org.rp.market_data.exception.MarketDataServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,13 @@ public class MarketDataController
     ) throws MarketDataServiceException
     {
         HistoricQuote quote = marketDataService.getClosePriceBySymbol(symbol,date);
+        return new ResponseEntity<>(quote, HttpStatus.OK);
+    }
+
+    @GetMapping("/price/option/latest/symbol={symbol}")
+    public ResponseEntity<MarketData> getOptionLatestQuote(@PathVariable("symbol") String symbol) throws MarketDataServiceException
+    {
+        MarketData quote = marketDataService.getOptionLatestQuote(symbol);
         return new ResponseEntity<>(quote, HttpStatus.OK);
     }
 

@@ -3,6 +3,8 @@ package org.rp.market_data.service;
 import org.modelmapper.ModelMapper;
 import org.rp.market_data.dao.HistoricQuote;
 import org.rp.market_data.dao.security.Security;
+import org.rp.market_data.dao.security.options.MarketData;
+import org.rp.market_data.dao.security.options.OptionContract;
 import org.rp.market_data.exception.MarketDataServiceException;
 import org.rp.market_data.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -77,5 +80,15 @@ public class MarketDataService
             throw new MarketDataServiceException(e);
         }
 
+    }
+
+    public MarketData getOptionLatestQuote(String symbol) throws MarketDataServiceException
+    {
+        System.out.println("Connecting to URI ["+securityMasterURI+"]");
+        String url = securityMasterURI+ "/security_service/options/optionSymbol={optionSymbol}";
+        OptionContract security = restTemplate.getForObject(url, OptionContract.class, Collections.singletonMap("optionSymbol",symbol));
+        if (security == null || security.marketData() ==null)
+            throw new MarketDataServiceException("Unable to find symbol/quote for ["+symbol+"]");
+        return security.marketData();
     }
 }

@@ -29,6 +29,25 @@
 					"response": []
 				},
 				{
+					"name": "Get Latest Option Quote",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MD_HOSTNAME}}:{{MD_PORT}}/price/symbol=VOO&eod_date=2023-08-24",
+							"host": [
+								"{{MD_HOSTNAME}}"
+							],
+							"port": "{{MD_PORT}}",
+							"path": [
+								"price",
+								"symbol=VOO&eod_date=2023-08-24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get By Id",
 					"request": {
 						"method": "GET",
@@ -72,19 +91,40 @@
 					"response": []
 				},
 				{
-					"name": "Get Option by Underlying",
+					"name": "Get All Options by Underlying",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{SD_HOSTNAME}}:{{SD_PORT}}/security_service/symbol=APPL",
+							"raw": "{{SM_HOSTNAME}}:{{SM_PORT}}/security_service/options/underlying=VOO",
 							"host": [
-								"{{SD_HOSTNAME}}"
+								"{{SM_HOSTNAME}}"
 							],
-							"port": "{{SD_PORT}}",
+							"port": "{{SM_PORT}}",
 							"path": [
 								"security_service",
-								"symbol=APPL"
+								"options",
+								"underlying=VOO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Options",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SM_HOSTNAME}}:{{SM_PORT}}/security_service/options/optionSymbol=VOO230915C00415000",
+							"host": [
+								"{{SM_HOSTNAME}}"
+							],
+							"port": "{{SM_PORT}}",
+							"path": [
+								"security_service",
+								"options",
+								"optionSymbol=VOO230915C00415000"
 							]
 						}
 					},
@@ -104,6 +144,44 @@
 							"path": [
 								"security_service",
 								"id=2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "Get By Name Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ANALYTICS_HOSTNAME}}:{{ANALYTICS_PORT}}/analytics/getVolatility?underlyingSymbol=VOO&optionSymbol=VOO230915C00415000&asOfDate=2023-09-14",
+							"host": [
+								"{{ANALYTICS_HOSTNAME}}"
+							],
+							"port": "{{ANALYTICS_PORT}}",
+							"path": [
+								"analytics",
+								"getVolatility"
+							],
+							"query": [
+								{
+									"key": "underlyingSymbol",
+									"value": "VOO"
+								},
+								{
+									"key": "optionSymbol",
+									"value": "VOO230915C00415000"
+								},
+								{
+									"key": "asOfDate",
+									"value": "2023-09-14"
+								}
 							]
 						}
 					},
