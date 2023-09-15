@@ -6,9 +6,9 @@
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "security_master-80-tcp",
-                    "containerPort": 80,
-                    "hostPort": 80,
+                    "name": "security_master-1080-tcp",
+                    "containerPort": 1080,
+                    "hostPort": 1080,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
