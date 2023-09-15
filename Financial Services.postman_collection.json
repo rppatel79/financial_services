@@ -155,33 +155,20 @@
 			"name": "Analytics",
 			"item": [
 				{
-					"name": "Get By Name Copy",
+					"name": "Get Volatility",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ANALYTICS_HOSTNAME}}:{{ANALYTICS_PORT}}/analytics/getVolatility?underlyingSymbol=VOO&optionSymbol=VOO230915C00415000&asOfDate=2023-09-14",
+							"raw": "{{ANALYTICS_HOSTNAME}}:{{ANALYTICS_PORT}}/analytics/getVolatility/underlyingSymbol=VOO&optionSymbol=VOO230915C00415000&optionPrice=1.1&asOfDate=2023-09-14",
 							"host": [
 								"{{ANALYTICS_HOSTNAME}}"
 							],
 							"port": "{{ANALYTICS_PORT}}",
 							"path": [
 								"analytics",
-								"getVolatility"
-							],
-							"query": [
-								{
-									"key": "underlyingSymbol",
-									"value": "VOO"
-								},
-								{
-									"key": "optionSymbol",
-									"value": "VOO230915C00415000"
-								},
-								{
-									"key": "asOfDate",
-									"value": "2023-09-14"
-								}
+								"getVolatility",
+								"underlyingSymbol=VOO&optionSymbol=VOO230915C00415000&optionPrice=1.1&asOfDate=2023-09-14"
 							]
 						}
 					},
