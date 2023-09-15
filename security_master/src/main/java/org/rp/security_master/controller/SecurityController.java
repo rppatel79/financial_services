@@ -44,7 +44,7 @@ public class SecurityController
     }
 
     @GetMapping(value = "/security_service/options/optionSymbol={optionSymbol}")
-    public OptionContract  getOptionsContracts(@PathVariable String optionSymbol) throws SecurityMasterServiceException
+    public OptionContract  getOptionsContract(@PathVariable String optionSymbol) throws SecurityMasterServiceException
     {
         return securityService.getOption(optionSymbol.substring(0,3),optionSymbol);
     }
