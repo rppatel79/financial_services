@@ -6,9 +6,9 @@
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "market_data-90-tcp",
-                    "containerPort": 90,
-                    "hostPort": 90,
+                    "name": "market_data-1090-tcp",
+                    "containerPort": 1090,
+                    "hostPort": 1090,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
@@ -17,7 +17,7 @@
             "environment": [
                 {
                     "name": "securitymaster.uri",
-                    "value": "http://security_master.financial_services_cluster:80"
+                    "value": "http://security_master.financial_services_cluster:1080"
                 }
             ],
             "mountPoints": [],
