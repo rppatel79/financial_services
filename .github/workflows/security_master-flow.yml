@@ -3,6 +3,7 @@ name: Security Master CI
 on:
   push:
    paths:
+   - 'common/**'
    - 'security_master/**'
    - '.github/**'
 
@@ -41,11 +42,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-      - name: Build with common project with maven
-        run: mvn package
+      - name: Install common project with maven
+        run: mvn install
         working-directory: common
 
-      - name: Build with project Maven
+      - name: Build project Maven
         run: mvn package
         working-directory: ${{ env.PROJECT_DIRECTORY }}
 
