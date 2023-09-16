@@ -67,6 +67,7 @@ public class AnalyticsService {
         Map<String, String> params = new HashMap<>();
         params.put("ticker", symbol);
         params.put("eod_date", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(DateUtils2.adjustDate(date)));
+        System.out.println("Making request: ["+url+"] with params: ["+params+"]");
         return restTemplate.getForObject(url, HistoricQuote.class, params);
     }
 
@@ -150,6 +151,7 @@ public class AnalyticsService {
     {
         String url = securityMasterURI + "/security_service/options/optionSymbol={optionSymbol}";
         Map<String,String> params = Collections.singletonMap("optionSymbol",optionSymbol);
+        System.out.println("Making request: ["+url+"] with params: ["+params+"]");
         return restTemplate.getForObject(url, OptionContract.class,params);
     }
 
