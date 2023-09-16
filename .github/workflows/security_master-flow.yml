@@ -7,6 +7,7 @@ on:
    - '.github/**'
 
 env:
+  PROJECT_DIRECTORY: security_master
   AWS_REGION: us-east-1                  # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: security_master          # set this to your Amazon ECR repository name
   ECS_SERVICE: security_master_service                # set this to your Amazon ECS service name
@@ -39,9 +40,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Maven
+          
+      - name: Build with project common
         run: mvn package
-        working-directory: security_master
+        working-directory: ${{ env.PROJECT_DIRECTORY }}
+
+      - name: Build with project Maven
+        run: mvn package
+        working-directory: common
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
@@ -50,7 +56,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # Build a docker container and push it to ECR so that it can be deployed to ECS.
-          docker build -f security_master/src/main/docker/Dockerfile --build-arg JAR_FILE=security_master/target/*.jar -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -f ${{ env.PROJECT_DIRECTORY }}/src/main/docker/Dockerfile --build-arg JAR_FILE=${{ env.PROJECT_DIRECTORY }}/target/*.jar -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
