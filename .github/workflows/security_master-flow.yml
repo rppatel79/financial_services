@@ -3,6 +3,7 @@ name: Security Master CI
 on:
   push:
    paths:
+   - 'common/**'
    - 'security_master/**'
    - '.github/**'
 
