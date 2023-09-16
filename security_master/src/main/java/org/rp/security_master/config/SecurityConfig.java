@@ -2,7 +2,7 @@ package org.rp.security_master.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.rp.security_master.dao.Security;
+import org.rp.financial_services.common.dao.security.Security;
 import org.rp.security_master.repo.dao.SecurityEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,10 +1,10 @@
 package org.rp.market_data.service;
 
 import org.modelmapper.ModelMapper;
-import org.rp.market_data.dao.HistoricQuote;
-import org.rp.market_data.dao.security.Security;
-import org.rp.market_data.dao.security.options.MarketData;
-import org.rp.market_data.dao.security.options.OptionContract;
+import org.rp.financial_services.common.dao.market_data.HistoricQuote;
+import org.rp.financial_services.common.dao.security.Security;
+import org.rp.financial_services.common.dao.security.options.MarketData;
+import org.rp.financial_services.common.dao.security.options.OptionContract;
 import org.rp.market_data.exception.MarketDataServiceException;
 import org.rp.market_data.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class MarketDataService
             Security security = restTemplate.getForObject(url, Security.class);
             if (security == null)
                 throw new MarketDataServiceException("The security with id ["+securityId+"] is not found");
-            return getClosePriceBySymbol(security.symbol(), date);
+            return getClosePriceBySymbol(security.getSymbol(), date);
         }
         catch (URISyntaxException e)
         {

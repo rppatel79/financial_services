@@ -1,16 +1,9 @@
-package org.rp.security_master.dao;
+package org.rp.financial_services.common.dao.security;
+
 
 public class Security {
     private String name;
     private String symbol;
-
-    public Security(String name, String symbol) {
-        this.name = name;
-        this.symbol = symbol;
-    }
-
-    public Security() {
-    }
 
     public String getName() {
         return name;

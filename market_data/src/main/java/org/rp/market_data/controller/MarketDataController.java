@@ -1,7 +1,7 @@
 package org.rp.market_data.controller;
 
-import org.rp.market_data.dao.HistoricQuote;
-import org.rp.market_data.dao.security.options.MarketData;
+import org.rp.financial_services.common.dao.market_data.HistoricQuote;
+import org.rp.financial_services.common.dao.security.options.MarketData;
 import org.rp.market_data.service.MarketDataService;
 import org.rp.market_data.exception.MarketDataServiceException;
 import org.springframework.beans.factory.annotation.Autowired;

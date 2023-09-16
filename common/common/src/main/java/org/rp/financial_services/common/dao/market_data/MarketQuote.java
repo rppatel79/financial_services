@@ -1,4 +1,4 @@
-package org.rp.market_data.dao;
+package org.rp.financial_services.common.dao.market_data;
 
 import java.math.BigDecimal;
 

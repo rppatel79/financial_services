@@ -1,6 +1,7 @@
 package org.rp.security_master.controller;
 
-import org.rp.security_master.dao.Security;
+
+import org.rp.financial_services.common.dao.security.Security;
 import org.rp.security_master.exception.SecurityMasterServiceException;
 import org.rp.security_master.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;

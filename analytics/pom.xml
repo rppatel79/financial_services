@@ -16,7 +16,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>org.rp</groupId>
+    <groupId>org.rp.financial_services</groupId>
     <artifactId>analytics</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -78,6 +78,12 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derbytools</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.rp.financial_services</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
