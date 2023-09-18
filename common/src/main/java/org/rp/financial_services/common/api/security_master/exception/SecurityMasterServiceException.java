@@ -1,4 +1,4 @@
-package org.rp.security_master.exception;
+package org.rp.financial_services.common.api.security_master.exception;
 
 public class SecurityMasterServiceException extends Exception
 {

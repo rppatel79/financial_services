@@ -87,8 +87,8 @@ public class MarketDataService
         System.out.println("Connecting to URI ["+securityMasterURI+"]");
         String url = securityMasterURI+ "/security_service/options/optionSymbol={optionSymbol}";
         OptionContract security = restTemplate.getForObject(url, OptionContract.class, Collections.singletonMap("optionSymbol",symbol));
-        if (security == null || security.marketData() ==null)
+        if (security == null || security.getMarketData() ==null)
             throw new MarketDataServiceException("Unable to find symbol/quote for ["+symbol+"]");
-        return security.marketData();
+        return security.getMarketData();
     }
 }

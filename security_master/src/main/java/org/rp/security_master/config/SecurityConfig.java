@@ -3,6 +3,7 @@ package org.rp.security_master.config;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.rp.financial_services.common.dao.security.Security;
+import org.rp.financial_services.common.dao.security.options.*;
 import org.rp.security_master.repo.dao.SecurityEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,17 @@ public class SecurityConfig {
         TypeMap<SecurityEntity, Security> typeMap =stockMapper.createTypeMap(SecurityEntity.class, Security.class);
         typeMap.addMapping(SecurityEntity::getName,Security::setName);
         typeMap.addMapping(SecurityEntity::getSymbol,Security::setSymbol);
+
+        return stockMapper;
+    }
+
+    @Bean(name="entityToOptionMapper")
+    public ModelMapper createEntityToOptionMapper()
+    {
+        ModelMapper stockMapper =  new ModelMapper();
+        stockMapper.createTypeMap(yahoofinance.options.dao.OptionContract.class, OptionContract.class);
+        stockMapper.createTypeMap(yahoofinance.options.dao.MarketData.class, MarketData.class);
+
 
         return stockMapper;
     }

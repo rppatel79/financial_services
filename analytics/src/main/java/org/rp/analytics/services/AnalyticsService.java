@@ -6,9 +6,9 @@ import com.rp.risk_management.model.Option;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
 import org.rp.analytics.dao.HistoricQuote;
-import org.rp.analytics.dao.security.options.OptionContract;
 import org.rp.analytics.exception.AnalyticsServiceException;
 import org.rp.analytics.utils.DateUtils2;
+import org.rp.financial_services.common.dao.security.options.OptionContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -77,13 +77,13 @@ public class AnalyticsService {
 
         Option option = new Option(underlyingPrice,
                 -1,
-                contract.strike().doubleValue(),
+                contract.getStrike().doubleValue(),
                 interestRate.doubleValue(),
                 0,
-                ((int) valueDate.until(contract.expiration(), ChronoUnit.DAYS)),
+                ((int) valueDate.until(contract.getExpiration(), ChronoUnit.DAYS)),
                 Collections.emptyList(),
                 Option.OptionStyle.American,
-                contract.optionType() == OptionContract.OptionType.Call ? Option.OptionType.Call : Option.OptionType.Put
+                contract.getOptionType() == OptionContract.OptionType.Call ? Option.OptionType.Call : Option.OptionType.Put
         );
 
         return solver.solve(1000, v -> {
@@ -129,14 +129,14 @@ public class AnalyticsService {
                 HistoricQuote underlytingQuote=getClosePriceBySymbol(marketDataURI,restTemplate,underlying,asOfDate.toLocalDate());
 
                 List<OptionContract> allContracts = responseEntity.getBody().values().stream().flatMap(map -> map.values().stream()).flatMap(Collection::stream).toList();
-                int stepSize=Math.abs(allContracts.get(0).strike().subtract(allContracts.get(1).strike()).intValue());
-                List<OptionContract> filteredContracts = allContracts.stream().filter(optionContract -> OptionContract.OptionType.Put.equals(optionContract.optionType()))
-                        .filter(optionContract -> asOfDate.toLocalDate().until(optionContract.expiration(), ChronoUnit.DAYS) < 90)
-                        .filter(optionContract -> !BigDecimal.ZERO.equals(optionContract.marketData().ask()))
-                        .filter(optionContract -> !BigDecimal.ZERO.equals(optionContract.marketData().bid()))
-                        .filter(optionContract -> optionContract.marketData().openInterest() > 5)
-                        .filter(optionContract -> optionContract.marketData().lastTradeDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().until(asOfDate, ChronoUnit.HOURS) < 35)
-                        .filter(optionContract -> underlytingQuote.getClose().subtract(new BigDecimal(stepSize*contractsAwayFromTheMoney)).compareTo(optionContract.strike())>0)
+                int stepSize=Math.abs(allContracts.get(0).getStrike().subtract(allContracts.get(1).getStrike()).intValue());
+                List<OptionContract> filteredContracts = allContracts.stream().filter(optionContract -> OptionContract.OptionType.Put.equals(optionContract.getOptionType()))
+                        .filter(optionContract -> asOfDate.toLocalDate().until(optionContract.getExpiration(), ChronoUnit.DAYS) < 90)
+                        .filter(optionContract -> !BigDecimal.ZERO.equals(optionContract.getMarketData().getAsk()))
+                        .filter(optionContract -> !BigDecimal.ZERO.equals(optionContract.getMarketData().getBid()))
+                        .filter(optionContract -> optionContract.getMarketData().getOpenInterest() > 5)
+                        .filter(optionContract -> optionContract.getMarketData().getLastTradeDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().until(asOfDate, ChronoUnit.HOURS) < 35)
+                        .filter(optionContract -> underlytingQuote.getClose().subtract(new BigDecimal(stepSize*contractsAwayFromTheMoney)).compareTo(optionContract.getStrike())>0)
                         .collect(Collectors.toList());
                 System.out.println(filteredContracts);
             } catch (Exception ex) {
