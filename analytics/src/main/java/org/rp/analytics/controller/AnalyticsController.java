@@ -1,7 +1,7 @@
 package org.rp.analytics.controller;
 
-import org.rp.analytics.exception.AnalyticsServiceException;
-import org.rp.analytics.services.AnalyticsService;
+import org.rp.financial_services.common.api.analytics.exception.AnalyticsServiceException;
+import org.rp.analytics.services.AnalyticsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class AnalyticsController {
 
     @Autowired
-    private AnalyticsService analyticsService;
+    private AnalyticsServiceImpl analyticsService;
 
     @GetMapping("/analytics/getVolatility/underlyingSymbol={underlyingSymbol}&optionSymbol={optionSymbol}&optionPrice={optionPrice}&asOfDate={asOfDate}")
     public ResponseEntity<Double> getVolatility(@PathVariable("underlyingSymbol") String underlyingSymbol,

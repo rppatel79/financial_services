@@ -1,4 +1,4 @@
-package org.rp.analytics.exception;
+package org.rp.financial_services.common.api.analytics.exception;
 
 public class AnalyticsServiceException extends Exception
 {

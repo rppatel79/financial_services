@@ -3,11 +3,11 @@ package org.rp.analytics.services;
 import com.rp.risk_management.analytics.security.options.CoxRossRubinsteinPricer;
 import com.rp.risk_management.analytics.security.options.OptionPricer;
 import com.rp.risk_management.model.Option;
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
 import org.rp.analytics.dao.HistoricQuote;
-import org.rp.analytics.exception.AnalyticsServiceException;
+import org.rp.financial_services.common.api.analytics.exception.AnalyticsServiceException;
 import org.rp.analytics.utils.DateUtils2;
+import org.rp.financial_services.common.api.analytics.AnalyticsService;
 import org.rp.financial_services.common.dao.security.options.OptionContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class AnalyticsService {
+public class AnalyticsServiceImpl implements AnalyticsService {
     @Value("${securitymaster.uri}")
     private String securityMasterURI;
 
@@ -47,7 +46,8 @@ public class AnalyticsService {
     public static final double MAX_VOL = 1.0 - MIN_VOL;
     private static final BigDecimal interestRate = new BigDecimal("0.05");
 
-    public double getVolatility(LocalDate date, String underlyingSymbol, String optionSymbol,double optionPrice) throws AnalyticsServiceException
+    @Override
+    public double getVolatility(LocalDate date, String underlyingSymbol, String optionSymbol, double optionPrice) throws AnalyticsServiceException
     {
         //get prices
         HistoricQuote underlyingQuote = getClosePriceBySymbol(underlyingSymbol, date);

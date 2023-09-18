@@ -1,11 +1,12 @@
 package org.rp.market_data.service;
 
 import org.modelmapper.ModelMapper;
+import org.rp.financial_services.common.api.market_data.MarketDataService;
 import org.rp.financial_services.common.dao.market_data.HistoricQuote;
 import org.rp.financial_services.common.dao.security.Security;
 import org.rp.financial_services.common.dao.security.options.MarketData;
 import org.rp.financial_services.common.dao.security.options.OptionContract;
-import org.rp.market_data.exception.MarketDataServiceException;
+import org.rp.financial_services.common.api.market_data.exception.MarketDataServiceException;
 import org.rp.market_data.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,8 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class MarketDataService
-{
+public class MarketDataServiceImpl implements MarketDataService {
     @Value("${securitymaster.uri}")
     private String securityMasterURI;
 
@@ -39,6 +39,7 @@ public class MarketDataService
     @Autowired
     private RestTemplate restTemplate;
 
+    @Override
     public HistoricQuote getClosePriceBySymbol(String symbol, LocalDate localDate) throws MarketDataServiceException
     {
         List<HistoricQuote> quotes =getClosePriceBySymbol(symbol,localDate,localDate.plus(1, ChronoUnit.DAYS));
@@ -47,6 +48,7 @@ public class MarketDataService
         return quotes.get(0);
     }
 
+    @Override
     public HistoricQuote getClosePrice(int securityId, LocalDate date) throws MarketDataServiceException
     {
         try {
@@ -64,7 +66,8 @@ public class MarketDataService
     }
 
 
-    public List<HistoricQuote> getClosePriceBySymbol(String symbol,LocalDate startDate, LocalDate endDate) throws MarketDataServiceException
+    @Override
+    public List<HistoricQuote> getClosePriceBySymbol(String symbol, LocalDate startDate, LocalDate endDate) throws MarketDataServiceException
     {
         try {
             yahoofinance.Stock stock = YahooFinance.get(symbol);
@@ -82,6 +85,7 @@ public class MarketDataService
 
     }
 
+    @Override
     public MarketData getOptionLatestQuote(String symbol) throws MarketDataServiceException
     {
         System.out.println("Connecting to URI ["+securityMasterURI+"]");
