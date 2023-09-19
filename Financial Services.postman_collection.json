@@ -10,7 +10,7 @@
 			"name": "Market Data",
 			"item": [
 				{
-					"name": "Get By Symbol",
+					"name": "Get By Price by Symbol and Date",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -29,19 +29,40 @@
 					"response": []
 				},
 				{
-					"name": "Get Latest Option Quote",
+					"name": "Get By Prices by Symbol and Price Range",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{MD_HOSTNAME}}:{{MD_PORT}}/price/symbol=VOO&eod_date=2023-08-24",
+							"raw": "{{MD_HOSTNAME}}:{{MD_PORT}}/price/symbol=VOO&start_date=2023-09-01&end_date=2023-09-18",
 							"host": [
 								"{{MD_HOSTNAME}}"
 							],
 							"port": "{{MD_PORT}}",
 							"path": [
 								"price",
-								"symbol=VOO&eod_date=2023-08-24"
+								"symbol=VOO&start_date=2023-09-01&end_date=2023-09-18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Latest Option Quote",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MD_HOSTNAME}}:{{MD_PORT}}/price/option/latest/symbol=VOO231215C00205000",
+							"host": [
+								"{{MD_HOSTNAME}}"
+							],
+							"port": "{{MD_PORT}}",
+							"path": [
+								"price",
+								"option",
+								"latest",
+								"symbol=VOO231215C00205000"
 							]
 						}
 					},
@@ -77,14 +98,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{SD_HOSTNAME}}:{{SD_PORT}}/security_service/symbol=APPL",
+							"raw": "{{SM_HOSTNAME}}:{{SM_PORT}}/security_service/symbol=AAPL",
 							"host": [
-								"{{SD_HOSTNAME}}"
+								"{{SM_HOSTNAME}}"
 							],
-							"port": "{{SD_PORT}}",
+							"port": "{{SM_PORT}}",
 							"path": [
 								"security_service",
-								"symbol=APPL"
+								"symbol=AAPL"
 							]
 						}
 					},
