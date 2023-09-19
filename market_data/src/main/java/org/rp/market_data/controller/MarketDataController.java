@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 public class MarketDataController
@@ -27,6 +28,16 @@ public class MarketDataController
     {
         HistoricQuote quote = marketDataService.getClosePriceBySymbol(symbol,date);
         return new ResponseEntity<>(quote, HttpStatus.OK);
+    }
+
+    @GetMapping("/price/symbol={symbol}&start_date={start_date}&end_date={end_date}")
+    public ResponseEntity<List<HistoricQuote>> getClosePriceBySymbol(@PathVariable("symbol") String symbol
+            , @PathVariable("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate
+            , @PathVariable("end_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) throws MarketDataServiceException
+    {
+        List<HistoricQuote> quotes = marketDataService.getClosePriceBySymbol(symbol,startDate,endDate);
+        return new ResponseEntity<>(quotes, HttpStatus.OK);
     }
 
     @GetMapping("/price/option/latest/symbol={symbol}")
