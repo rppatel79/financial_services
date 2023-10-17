@@ -69,4 +69,12 @@ public class MarketData
     public void setImpliedVol(double impliedVol) {
         this.impliedVol = impliedVol;
     }
+
+    public BigDecimal getMid()
+    {
+        if (getBid() == null || getAsk() == null)
+            return null;
+        else
+            return (getBid().add(getAsk()).divide(new BigDecimal("2.0")));
+    }
 }

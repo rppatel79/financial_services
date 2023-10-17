@@ -69,6 +69,27 @@
 					"response": []
 				},
 				{
+					"name": "Get Latest Equity Quote",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MD_HOSTNAME}}:{{MD_PORT}}/price/option/latest/symbol=VOO231215C00205000",
+							"host": [
+								"{{MD_HOSTNAME}}"
+							],
+							"port": "{{MD_PORT}}",
+							"path": [
+								"price",
+								"option",
+								"latest",
+								"symbol=VOO231215C00205000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get By Id",
 					"request": {
 						"method": "GET",

@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
+import yahoofinance.quotes.stock.StockQuote;
 
 import java.io.IOException;
 import java.net.URI;
@@ -32,6 +33,9 @@ public class MarketDataServiceImpl implements MarketDataService {
 
     @Autowired
     private ModelMapper marketQuoteMapper;
+
+    @Autowired
+    private ModelMapper stockQuoteToMarketDataMapper;
 
     @Autowired
     private ModelMapper historicQuoteMapper;
@@ -94,5 +98,19 @@ public class MarketDataServiceImpl implements MarketDataService {
         if (security == null || security.getMarketData() ==null)
             throw new MarketDataServiceException("Unable to find symbol/quote for ["+symbol+"]");
         return security.getMarketData();
+    }
+
+    @Override
+    public MarketData getEquityLatestQuote(String symbol) throws MarketDataServiceException
+    {
+        try {
+            yahoofinance.Stock stock = YahooFinance.get(symbol);
+            StockQuote liveQuote = stock.getQuote();
+            return stockQuoteToMarketDataMapper.map(liveQuote, MarketData.class);
+        }
+        catch(Exception ex)
+        {
+            throw new MarketDataServiceException(ex);
+        }
     }
 }

@@ -47,6 +47,14 @@ public class MarketDataController
         return new ResponseEntity<>(quote, HttpStatus.OK);
     }
 
+    @GetMapping("/price/equity/latest/symbol={symbol}")
+    public ResponseEntity<MarketData> getEquityLatestQuote(@PathVariable("symbol") String symbol) throws MarketDataServiceException
+    {
+        MarketData quote = marketDataService.getEquityLatestQuote(symbol);
+        return new ResponseEntity<>(quote, HttpStatus.OK);
+    }
+
+
     @GetMapping("/price/id={id}&eod_date={eod_date}")
     public ResponseEntity<HistoricQuote> getClosePrice(@PathVariable("id") int securityId
             ,@PathVariable("eod_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date

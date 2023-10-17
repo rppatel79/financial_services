@@ -16,4 +16,6 @@ public interface MarketDataService {
     List<HistoricQuote> getClosePriceBySymbol(String symbol, LocalDate startDate, LocalDate endDate) throws MarketDataServiceException;
 
     MarketData getOptionLatestQuote(String symbol) throws MarketDataServiceException;
+
+    MarketData getEquityLatestQuote(String symbol) throws MarketDataServiceException;
 }

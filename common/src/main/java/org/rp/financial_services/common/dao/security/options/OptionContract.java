@@ -70,4 +70,17 @@ public class OptionContract
     public void setMarketData(MarketData marketData) {
         this.marketData = marketData;
     }
+
+    @Override
+    public String toString() {
+        return "OptionContract{" +
+                "optionType=" + optionType +
+                ", symbol='" + symbol + '\'' +
+                ", strike=" + strike +
+                ", currency='" + currency + '\'' +
+                ", contractSize='" + contractSize + '\'' +
+                ", expiration=" + expiration +
+                ", marketData=" + marketData +
+                '}';
+    }
 }
