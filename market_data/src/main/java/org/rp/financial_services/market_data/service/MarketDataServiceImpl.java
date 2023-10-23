@@ -7,7 +7,7 @@ import org.rp.financial_services.common.dao.market_data.HistoricQuote;
 import org.rp.financial_services.common.dao.security.Security;
 import org.rp.financial_services.common.dao.security.options.MarketData;
 import org.rp.financial_services.common.dao.security.options.OptionContract;
-import org.rp.financial_services.market_data.utils.DateUtils;
+import org.rp.financial_services.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

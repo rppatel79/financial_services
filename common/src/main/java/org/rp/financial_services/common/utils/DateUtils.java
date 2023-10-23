@@ -1,4 +1,4 @@
-package org.rp.financial_services.analytics.utils;
+package org.rp.financial_services.common.utils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -8,8 +8,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateUtils2 {
-    private DateUtils2(){}
+public class DateUtils {
+    private DateUtils(){}
 
 
     /**
@@ -27,5 +27,12 @@ public class DateUtils2 {
             default -> date;
         };
 
+    }
+
+    public static Calendar convertLocalDateToCalendar(LocalDate localDate) {
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
     }
 }
