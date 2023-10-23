@@ -6,7 +6,9 @@ import java.time.LocalDate;
 public class OptionContract
 {
     public enum OptionType {Call,Put}
+    public enum OptionStyle {American,European}
 
+    private OptionStyle optionStyle;
     private OptionType optionType;
     private String symbol;
     private BigDecimal strike;
@@ -15,12 +17,26 @@ public class OptionContract
     private LocalDate expiration;
     private MarketData marketData;
 
+
+    public OptionContract() {
+        // default
+        optionStyle= OptionStyle.American;
+    }
+
     public OptionType getOptionType() {
         return optionType;
     }
 
     public void setOptionType(OptionType optionType) {
         this.optionType = optionType;
+    }
+
+    public OptionStyle getOptionStyle() {
+        return optionStyle;
+    }
+
+    public void setOptionStyle(OptionStyle optionStyle) {
+        this.optionStyle = optionStyle;
     }
 
     public String getSymbol() {
@@ -74,7 +90,8 @@ public class OptionContract
     @Override
     public String toString() {
         return "OptionContract{" +
-                "optionType=" + optionType +
+                "optionStyle=" + optionStyle +
+                ", optionType=" + optionType +
                 ", symbol='" + symbol + '\'' +
                 ", strike=" + strike +
                 ", currency='" + currency + '\'' +
