@@ -16,5 +16,6 @@ public interface SecurityService {
     Map<LocalDate, Map<OptionContract.OptionType, List<OptionContract>>> getAllOptions(String symbol) throws SecurityMasterServiceException;
 
     OptionContract getOption(String underlyingSymbol, String contract) throws SecurityMasterServiceException;
+    OptionContract getOption(String contract) throws SecurityMasterServiceException;
 
 }
