@@ -126,6 +126,13 @@ public class SecurityServiceImpl implements SecurityService {
         }
     }
 
+    @Override
+    public OptionContract getOption(String contract) throws SecurityMasterServiceException
+    {
+        return getOption(contract.substring(0,3), contract);
+    }
+
+
     private List<Security> convertToSecurity(List<SecurityEntity> securityEntities) {
         List<Security> securities = new ArrayList<>(securityEntities.size());
         for (SecurityEntity security : securityEntities)

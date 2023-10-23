@@ -23,27 +23,27 @@ public class SecurityController
     @Autowired
     private SecurityServiceImpl securityService;
 
-    @GetMapping(value="/security_service/symbol={symbol}")
+    @GetMapping(value="/security_service/symbol={symbol}",produces = "application/json")
     public ResponseEntity<List<Security>> getSecurity(@PathVariable String symbol) throws SecurityMasterServiceException
     {
         List<Security> ret = securityService.getSecurityBySymbol(symbol);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/security_service/id={secId}")
+    @GetMapping(value = "/security_service/id={secId}",produces = "application/json")
     public ResponseEntity<Security> getSecurityById(@PathVariable int secId)
     {
         Security s = securityService.getSecurity(secId);
         return new ResponseEntity<>(s,HttpStatus.OK);
     }
 
-    @GetMapping(value = "/security_service/options/underlying={underlyingSymbol}")
+    @GetMapping(value = "/security_service/options/underlying={underlyingSymbol}",produces = "application/json")
     public Map<LocalDate, Map<OptionContract.OptionType, List<OptionContract>>>  getAllOptionsContracts(@PathVariable String underlyingSymbol) throws SecurityMasterServiceException
     {
         return securityService.getAllOptions(underlyingSymbol);
     }
 
-    @GetMapping(value = "/security_service/options/optionSymbol={optionSymbol}")
+    @GetMapping(value = "/security_service/options/optionSymbol={optionSymbol}",produces = "application/json")
     public OptionContract  getOptionsContract(@PathVariable String optionSymbol) throws SecurityMasterServiceException
     {
 
