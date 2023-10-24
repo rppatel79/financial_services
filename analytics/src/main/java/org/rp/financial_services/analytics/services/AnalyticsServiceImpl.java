@@ -28,6 +28,8 @@ import java.util.stream.Stream;
 @Service
 public class AnalyticsServiceImpl implements AnalyticsService {
 
+    public static final int DEFAULT_MAX_DAYS_UNTIL_EXPIRATION = 90;
+    public static final int DEFAULT_MIN_DAYS_UNTIL_EXPIRATION = 2;
     @Autowired
     private MarketDataService marketDataService;
 
@@ -41,7 +43,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     public static final double MIN_VOL = 0.01;
     public static final double MAX_VOL = 1.0 - MIN_VOL;
 
-    private static int DEFAULT_CONTRACTS_AWAY_FROM_THE_MONEY = 5;
+    private static final int DEFAULT_CONTRACTS_AWAY_FROM_THE_MONEY = 5;
     private static final BigDecimal interestRate = new BigDecimal("0.05");
 
     @Override
@@ -71,9 +73,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                     v,
                     0.0
             );
-            double ret = pricer.getOptionPrice() - optionPrice;
 
-            return ret;
+                    return pricer.getOptionPrice() - optionPrice;
         },
                 MIN_VOL,
                 MAX_VOL,
@@ -83,7 +84,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     private static Option buildAnalyticsOptionModel(LocalDate valueDate, OptionContract contract,double underlyingPrice)
     {
-        Option option = new Option(underlyingPrice,
+        return new Option(underlyingPrice,
                 -1,
                 contract.getStrike().doubleValue(),
                 interestRate.doubleValue(),
@@ -93,17 +94,16 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 contract.getOptionStyle() == OptionContract.OptionStyle.American ? Option.OptionStyle.American : Option.OptionStyle.European,
                 contract.getOptionType() == OptionContract.OptionType.Call ? Option.OptionType.Call : Option.OptionType.Put
         );
-        return option;
     }
 
-    public String optionsToSellNow(List<String> underlyings,OptionContract.OptionType optionType)
+    public Map<String,Map<String,String>> optionsToSellNow(List<String> underlyings,OptionContract.OptionType optionType)
     {
         return optionsToSell(underlyings,optionType, DEFAULT_CONTRACTS_AWAY_FROM_THE_MONEY,LocalDateTime.now());
     }
 
-    public String optionsToSell(List<String> underlyings,OptionContract.OptionType optionType,int contractsAwayFromTheMoney,LocalDateTime asOfDate)
+    public Map<String,Map<String,String>> optionsToSell(List<String> underlyings,OptionContract.OptionType optionType,int contractsAwayFromTheMoney,LocalDateTime asOfDate)
     {
-        StringBuilder builder = new StringBuilder();
+        Map<String,Map<String,String>> ret = new HashMap<>();
         underlyings.forEach(underlying -> {
             try {
                 ParameterizedTypeReference<Map<LocalDate, Map<OptionContract.OptionType, List<OptionContract>>>> responseType =
@@ -122,25 +122,31 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 List<OptionContract> filteredContracts = filteredContracts(optionType, asOfDate, contractsAwayFromTheMoney, quote, allContracts, stepSize)
                         .collect(Collectors.toList());
 
-                builder.append(printResults(underlying,quote,filteredContracts));
+                ret.put(underlying, buildResults(underlying,quote,filteredContracts));
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         });
 
-        return builder.toString();
+        return ret;
     }
 
     private static int getStepSize(List<OptionContract> allContracts) {
-        int mid=allContracts.size()/2;
-        return Math.abs(allContracts.get(mid).getStrike().subtract(allContracts.get(mid+1).getStrike()).intValue());
+        // finds the nearest expirations, and then guesses the step size by looking at the strike's of the mid and mid+1
+        OptionContract contractWithMinExpiration = allContracts.stream().min(Comparator.comparing(OptionContract::getExpiration)).get();
+
+        List<OptionContract> f= allContracts.stream().filter(optionContract -> optionContract.getExpiration().equals(contractWithMinExpiration.getExpiration())).toList();
+        int mid =f.size()/2;
+        return f.get(mid+1).getStrike().subtract(f.get(mid).getStrike()).intValue();
+
     }
 
     private static Stream<OptionContract> filteredContracts(OptionContract.OptionType optionType, LocalDateTime asOfDate, int contractsAwayFromTheMoney, double quote, List<OptionContract> allContracts, int stepSize) {
+
         return allContracts.stream().filter(optionContract -> optionType.equals(optionContract.getOptionType()))
 
-                .filter(optionContract -> asOfDate.toLocalDate().until(optionContract.getExpiration(), ChronoUnit.DAYS) < 90)
-                .filter(optionContract -> asOfDate.toLocalDate().until(optionContract.getExpiration(), ChronoUnit.DAYS) > 2)
+                .filter(optionContract -> asOfDate.toLocalDate().until(optionContract.getExpiration(), ChronoUnit.DAYS) < DEFAULT_MAX_DAYS_UNTIL_EXPIRATION)
+                .filter(optionContract -> asOfDate.toLocalDate().until(optionContract.getExpiration(), ChronoUnit.DAYS) > DEFAULT_MIN_DAYS_UNTIL_EXPIRATION)//This condition is required, otherwise the delta calculation may break
 
                 .filter(optionContract -> optionContract.getMarketData().getAsk() != null && BigDecimal.ZERO.compareTo(optionContract.getMarketData().getAsk()) != 0)
                 .filter(optionContract -> optionContract.getMarketData().getBid() != null && BigDecimal.ZERO.compareTo(optionContract.getMarketData().getBid()) != 0)
@@ -168,21 +174,15 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 });
     }
 
-    /**
-     * TODO:  This needs to return a better construct
-     */
-    private String printResults(String underlying,double underlyingQuote, List<OptionContract> contractsToBuy) {
-        StringBuilder ret = new StringBuilder();
+    private Map<String,String> buildResults(String underlying, double underlyingQuote, List<OptionContract> contractsToBuy) {
+        Map<String,String> values = new HashMap<>();
         {
-            ret.append(underlying);
-            ret.append("Ticker,Type,Strike,Expiration,Bid,Mid,Ask,ImpliedVol,OptionInterest,LastPrice,LastTradeDate,Delta,RiskAdjustedPrice");
-
             contractsToBuy.stream().forEach(
                     optionContract -> {
                         optionContract.getMarketData().setImpliedVol(computeVolatility(LocalDate.now(),optionContract,underlyingQuote,optionContract.getMarketData().getMid().doubleValue()));
                     }
                     );
-            List<OptionContract> orderedContractsToBuy=contractsToBuy.stream().sorted((optionContract1,optionContract2) ->
+            List<OptionContract> orderedContractsToBuy= contractsToBuy.stream().sorted((optionContract1, optionContract2) ->
             {
                 double ratio1;
                 {
@@ -194,24 +194,31 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 double ratio2;
                 {
                     double delta2 = Math.abs(calculateDelta(underlyingQuote, optionContract2, interestRate.doubleValue()));
-                    double expectedLoss2 = optionContract2.getStrike().doubleValue()*100.0;
+                    double expectedLoss2 = optionContract2.getStrike().doubleValue() * 100.0;
                     ratio2 = optionContract2.getMarketData().getMid().doubleValue() / (delta2 * expectedLoss2);
                 }
-                return Double.compare(ratio2,ratio1);
-            }).collect(Collectors.toList());
+                return Double.compare(ratio2, ratio1);
+            }).toList();
             orderedContractsToBuy.stream().forEach(optionContract -> {
-                ret.append(optionContract.getSymbol()+","+optionContract.getOptionType()+","+optionContract.getStrike()+","+optionContract.getExpiration()
-                        +","+optionContract.getMarketData().getBid()+","+optionContract.getMarketData().getMid()+","+optionContract.getMarketData().getAsk()
-                        +","+optionContract.getMarketData().getImpliedVol()
-                        +","+optionContract.getMarketData().getOpenInterest()
-                        +","+optionContract.getMarketData().getLastPrice()+","+optionContract.getMarketData().getLastTradeDate()
-                        +","+ calculateDelta(underlyingQuote,optionContract,interestRate.doubleValue())
-                        +","+ optionContract.getMarketData().getMid().doubleValue() / (calculateDelta(underlyingQuote,optionContract,interestRate.doubleValue())*optionContract.getStrike().doubleValue()*100.0)
-                );
+                values.put("Ticker",optionContract.getSymbol());
+                values.put("Type",String.valueOf(optionContract.getOptionType()));
+                values.put("Strike",String.valueOf(optionContract.getStrike()));
+                values.put("Expiration",String.valueOf(optionContract.getExpiration()));
+                values.put("Bid",String.valueOf(optionContract.getMarketData().getBid()));
+                values.put("Mid",String.valueOf(optionContract.getMarketData().getMid()));
+                values.put("Ask",String.valueOf(optionContract.getMarketData().getAsk()));
+                values.put("ImpliedVol",String.valueOf(optionContract.getMarketData().getImpliedVol()));
+                values.put("OptionInterest",String.valueOf(optionContract.getMarketData().getOpenInterest()));
+                values.put("LastPrice",String.valueOf(optionContract.getMarketData().getLastPrice()));
+                values.put("LastTradeDate",String.valueOf(optionContract.getMarketData().getLastTradeDate()));
+
+                values.put("Delta",String.valueOf(calculateDelta(underlyingQuote,optionContract,interestRate.doubleValue())));
+                double riskAdjustedPrice=optionContract.getMarketData().getMid().doubleValue() / (calculateDelta(underlyingQuote,optionContract,interestRate.doubleValue())*optionContract.getStrike().doubleValue()*100.0);
+                values.put("RiskAdjustedPrice",String.valueOf(riskAdjustedPrice));
             });
         }
 
-        return ret.toString();
+        return values;
     }
 
 

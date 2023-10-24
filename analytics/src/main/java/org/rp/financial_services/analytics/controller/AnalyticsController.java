@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -35,11 +37,11 @@ public class AnalyticsController {
 
 
     @GetMapping("/analytics/optionToSell/underlyings={underlyings}&optionType={optionType}")
-    public ResponseEntity<String> optionToSell(@PathVariable("underlyings") List<String> underlyings,
+    public ResponseEntity<Map<String, Map<String,String>>> optionToSell(@PathVariable("underlyings") List<String> underlyings,
                                                 @PathVariable("optionType") OptionContract.OptionType optionType) throws AnalyticsServiceException
 
     {
-        String results = analyticsService.optionsToSellNow(underlyings, optionType);
-        return new ResponseEntity<>(results, HttpStatus.OK);
+        Map<String,Map<String,String>> ret = analyticsService.optionsToSellNow(underlyings, optionType);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }
