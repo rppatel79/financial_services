@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @RestController
@@ -37,11 +38,11 @@ public class AnalyticsController {
 
 
     @GetMapping("/analytics/optionToSell/underlyings={underlyings}&optionType={optionType}")
-    public ResponseEntity<Map<String, Map<String,String>>> optionToSell(@PathVariable("underlyings") List<String> underlyings,
-                                                @PathVariable("optionType") OptionContract.OptionType optionType) throws AnalyticsServiceException
+    public ResponseEntity<Map<String, Set<Map<String,String>>>> optionToSell(@PathVariable("underlyings") List<String> underlyings,
+                                                                             @PathVariable("optionType") OptionContract.OptionType optionType) throws AnalyticsServiceException
 
     {
-        Map<String,Map<String,String>> ret = analyticsService.optionsToSellNow(underlyings, optionType);
+        Map<String,Set<Map<String,String>>> ret = analyticsService.optionsToSellNow(underlyings, optionType);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 }
