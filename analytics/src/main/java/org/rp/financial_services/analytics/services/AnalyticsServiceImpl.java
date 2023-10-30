@@ -30,6 +30,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     public static final int DEFAULT_MAX_DAYS_UNTIL_EXPIRATION = 90;
     public static final int DEFAULT_MIN_DAYS_UNTIL_EXPIRATION = 2;
+    public static final double MIN_DELTA = 0.000000001;
     @Autowired
     private MarketDataService marketDataService;
 
@@ -225,9 +226,14 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 values.put("LastPrice",String.valueOf(optionContract.getMarketData().getLastPrice()));
                 values.put("LastTradeDate",String.valueOf(optionContract.getMarketData().getLastTradeDate()));
 
-                values.put("Delta",String.valueOf(calculateDelta(underlyingQuote,optionContract,interestRate.doubleValue())));
-                double riskAdjustedPrice=optionContract.getMarketData().getMid().doubleValue() / (calculateDelta(underlyingQuote,optionContract,interestRate.doubleValue())*optionContract.getStrike().doubleValue()*100.0);
-                values.put("RiskAdjustedPrice",String.valueOf(riskAdjustedPrice));
+                double delta = calculateDelta(underlyingQuote,optionContract,interestRate.doubleValue());
+                // sets the delta to a min value (to avoid div by 0)
+                if (delta == 0.0)
+                    delta = MIN_DELTA;
+                values.put("Delta",String.valueOf(delta));
+
+                Double riskAdjustedPrice=optionContract.getMarketData().getMid().doubleValue() / (delta)*optionContract.getStrike().doubleValue()*100.0;
+                values.put("RiskAdjustedPrice",new BigDecimal(riskAdjustedPrice).toPlainString());
 
                 results.add(values);
             });
