@@ -14,7 +14,6 @@ import org.rp.financial_services.common.dao.security.options.OptionContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -37,9 +36,6 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     @Autowired
     private SecurityService securityService;
 
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     public static final double MIN_VOL = 0.01;
     public static final double MAX_VOL = 1.0 - MIN_VOL;
