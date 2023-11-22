@@ -3,6 +3,8 @@ package org.rp.financial_services.market_data.service;
 import org.modelmapper.ModelMapper;
 import org.rp.financial_services.common.api.interfaces.market_data.MarketDataService;
 import org.rp.financial_services.common.api.interfaces.market_data.exception.MarketDataServiceException;
+import org.rp.financial_services.common.api.interfaces.security_master.SecurityService;
+import org.rp.financial_services.common.api.interfaces.security_master.exception.SecurityMasterServiceException;
 import org.rp.financial_services.common.dao.market_data.HistoricQuote;
 import org.rp.financial_services.common.dao.security.Security;
 import org.rp.financial_services.common.dao.security.options.MarketData;
@@ -28,20 +30,13 @@ import java.util.List;
 
 @Service
 public class MarketDataServiceImpl implements MarketDataService {
-    @Value("${securitymaster.uri}")
-    private String securityMasterURI;
-
-    @Autowired
-    private ModelMapper marketQuoteMapper;
-
     @Autowired
     private ModelMapper stockQuoteToMarketDataMapper;
-
     @Autowired
     private ModelMapper historicQuoteMapper;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private SecurityService securityService;
 
     @Override
     public HistoricQuote getClosePriceBySymbol(String symbol, LocalDate localDate) throws MarketDataServiceException
@@ -55,18 +50,8 @@ public class MarketDataServiceImpl implements MarketDataService {
     @Override
     public HistoricQuote getClosePrice(int securityId, LocalDate date) throws MarketDataServiceException
     {
-        try {
-            System.out.println("Connecting to URI ["+securityMasterURI+"]");
-            URI url = new URI(securityMasterURI+ "/security_service/id=" + securityId);
-            Security security = restTemplate.getForObject(url, Security.class);
-            if (security == null)
-                throw new MarketDataServiceException("The security with id ["+securityId+"] is not found");
-            return getClosePriceBySymbol(security.getSymbol(), date);
-        }
-        catch (URISyntaxException e)
-        {
-            throw new MarketDataServiceException(e);
-        }
+        Security security = securityService.getSecurity(securityId);
+        return getClosePriceBySymbol(security.getSymbol(), date);
     }
 
 
@@ -92,12 +77,16 @@ public class MarketDataServiceImpl implements MarketDataService {
     @Override
     public MarketData getOptionLatestQuote(String symbol) throws MarketDataServiceException
     {
-        System.out.println("Connecting to URI ["+securityMasterURI+"]");
-        String url = securityMasterURI+ "/security_service/options/optionSymbol={optionSymbol}";
-        OptionContract security = restTemplate.getForObject(url, OptionContract.class, Collections.singletonMap("optionSymbol",symbol));
-        if (security == null || security.getMarketData() ==null)
-            throw new MarketDataServiceException("Unable to find symbol/quote for ["+symbol+"]");
-        return security.getMarketData();
+        try {
+            OptionContract option = securityService.getOption(symbol);
+            if (option == null || option.getMarketData() ==null)
+                throw new MarketDataServiceException("Unable to find symbol/quote for [" + symbol + "]");
+
+            return option.getMarketData();
+        } catch (SecurityMasterServiceException ex)
+        {
+            throw new MarketDataServiceException("Unable to find symbol/quote for [" + symbol + "]",ex);
+        }
     }
 
     @Override
