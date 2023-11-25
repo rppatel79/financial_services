@@ -1,8 +1,8 @@
-package org.rp.financial_services.generator;
+package org.rp.financial_services.reports;
 
 import org.rp.financial_services.common.dao.security.options.OptionContract;
-import org.rp.financial_services.generator.reports.PremiumStrategyReport;
-import org.rp.financial_services.generator.reports.ReportGenerator;
+import org.rp.financial_services.reports.generator.PremiumStrategyReport;
+import org.rp.financial_services.reports.generator.ReportGenerator;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

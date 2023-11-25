@@ -1,4 +1,4 @@
-package org.rp.financial_services.generator.reports;
+package org.rp.financial_services.reports.generator;
 
 import org.rp.financial_services.common.dao.security.options.OptionContract;
 

@@ -1,4 +1,4 @@
-package org.rp.financial_services.generator.reports;
+package org.rp.financial_services.reports.generator;
 
 public interface ReportGenerator
 {
