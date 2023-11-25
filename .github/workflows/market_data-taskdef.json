@@ -17,7 +17,7 @@
             "environment": [
                 {
                     "name": "securitymaster.uri",
-                    "value": "http://security_master.financial_services_cluster:1080"
+                    "value": "http://securitymaster:1080"
                 }
             ],
             "mountPoints": [],
