@@ -44,7 +44,7 @@ jobs:
 
       - name: Install reports project with maven
         run: mvn install
-        working-directory: reports
+        working-directory: common
 
       - name: Build project Maven
         run: mvn package
