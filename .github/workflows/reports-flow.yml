@@ -42,7 +42,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install common project with maven
+      - name: Install reports project with maven
         run: mvn install
         working-directory: reports
 
