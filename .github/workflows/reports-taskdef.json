@@ -3,8 +3,7 @@
         {
             "name": "reports",
             "image": "541752449603.dkr.ecr.us-east-1.amazonaws.com/reports",
-            "cpu": 0
-            ],
+            "cpu": 0,           ],
             "essential": true,
             "environment": [
                 {
@@ -18,7 +17,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/reports_service",
+                    "awslogs-group": "/ecs/reports_task",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }
