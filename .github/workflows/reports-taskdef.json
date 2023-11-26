@@ -3,7 +3,7 @@
         {
             "name": "reports",
             "image": "541752449603.dkr.ecr.us-east-1.amazonaws.com/reports",
-            "cpu": 0,           ],
+            "cpu": 0,
             "essential": true,
             "environment": [
                 {
