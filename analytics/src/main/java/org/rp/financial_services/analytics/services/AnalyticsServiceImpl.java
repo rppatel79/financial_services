@@ -43,6 +43,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     private static final int DEFAULT_CONTRACTS_AWAY_FROM_THE_MONEY = 5;
     private static final BigDecimal interestRate = new BigDecimal("0.05");
 
+    enum DCC {ACT_365,ACT_360}
+    private static final DCC DEFAULT_DCC = DCC.ACT_360; // this should be part of the option contract or seperated in some convensions file
     @Override
     public double getVolatility(LocalDate date, String underlyingSymbol, String optionSymbol, double optionPrice) throws AnalyticsServiceException
     {
@@ -86,12 +88,17 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 contract.getStrike().doubleValue(),
                 interestRate.doubleValue(),
                 0,
-                ((int) valueDate.until(contract.getExpiration(), ChronoUnit.DAYS)),
+                ((int) getUntil(valueDate, contract)),
                 Collections.emptyList(),
                 contract.getOptionStyle() == OptionContract.OptionStyle.American ? Option.OptionStyle.American : Option.OptionStyle.European,
                 contract.getOptionType() == OptionContract.OptionType.Call ? Option.OptionType.Call : Option.OptionType.Put
         );
     }
+
+    private static long getUntil(LocalDate valueDate, OptionContract contract) {
+        return valueDate.until(contract.getExpiration(), ChronoUnit.DAYS);
+    }
+
 
     public Map<String,Set<Map<String,String>>> optionsToSellNow(List<String> underlyings,OptionContract.OptionType optionType)
     {
@@ -155,8 +162,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
         return allContracts.stream().filter(optionContract -> optionType.equals(optionContract.getOptionType()))
 
-                .filter(optionContract -> asOfDate.toLocalDate().until(optionContract.getExpiration(), ChronoUnit.DAYS) < DEFAULT_MAX_DAYS_UNTIL_EXPIRATION)
-                .filter(optionContract -> asOfDate.toLocalDate().until(optionContract.getExpiration(), ChronoUnit.DAYS) > DEFAULT_MIN_DAYS_UNTIL_EXPIRATION)//This condition is required, otherwise the delta calculation may break
+                .filter(optionContract -> getUntil(asOfDate.toLocalDate(), optionContract) < DEFAULT_MAX_DAYS_UNTIL_EXPIRATION)
+                .filter(optionContract -> getUntil(asOfDate.toLocalDate(), optionContract) > DEFAULT_MIN_DAYS_UNTIL_EXPIRATION)//This condition is required, otherwise the delta calculation may break
 
                 .filter(optionContract -> optionContract.getMarketData().getAsk() != null && BigDecimal.ZERO.compareTo(optionContract.getMarketData().getAsk()) != 0)
                 .filter(optionContract -> optionContract.getMarketData().getBid() != null && BigDecimal.ZERO.compareTo(optionContract.getMarketData().getBid()) != 0)
@@ -175,6 +182,12 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                                 throw new IllegalArgumentException("Unknown type ["+optionType+"]");
                         }
                 )
+                /*
+                .filter(optionContract -> {
+                    double expectedLoss =calculateExpectedLoss(quote,optionContract);
+                    double returnsAtInterestRate = expectedLoss*(interestRate.doubleValue())*getDcc(asOfDate.toLocalDate(),optionContract);
+                    return optionContract.getStrike().doubleValue()*100.0 > (returnsAtInterestRate);
+                })*/
                 .sorted((c1, c2) ->
                 {
                     if (c1.getExpiration().equals(c2.getExpiration()))
@@ -184,26 +197,34 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 });
     }
 
+    private static double getDcc(LocalDate toLocalDate, OptionContract optionContract) {
+        if (DCC.ACT_365.equals(DEFAULT_DCC))
+            return getUntil(toLocalDate,optionContract)/365.0;
+        else if (DCC.ACT_360.equals(DEFAULT_DCC))
+            return getUntil(toLocalDate,optionContract)/365.0;
+        else
+            throw new IllegalArgumentException();
+    }
+
     private Set<Map<String,String>> buildResults(String underlying, double underlyingQuote, List<OptionContract> contractsToBuy) {
+        LocalDate asOfDate = LocalDate.now();
         Set<Map<String,String>> results = new TreeSet<>((o1, o2) -> new BigDecimal(o2.get("RiskAdjustedPrice")).compareTo(new BigDecimal(o1.get("RiskAdjustedPrice"))));
         {
             contractsToBuy.stream().forEach(
-                    optionContract -> optionContract.getMarketData().setImpliedVol(computeVolatility(LocalDate.now(),optionContract,underlyingQuote,optionContract.getMarketData().getMid().doubleValue()))
+                    optionContract -> optionContract.getMarketData().setImpliedVol(computeVolatility(asOfDate,optionContract,underlyingQuote,optionContract.getMarketData().getMid().doubleValue()))
                     );
             List<OptionContract> orderedContractsToBuy= contractsToBuy.stream().sorted((optionContract1, optionContract2) ->
             {
                 double ratio1;
                 {
-                    double delta1 = Math.abs(calculateDelta(underlyingQuote, optionContract1, interestRate.doubleValue()));
-                    double expectedLoss1 = optionContract1.getStrike().doubleValue() * 100.0;
-                    ratio1 = optionContract1.getMarketData().getMid().doubleValue() / (delta1 * expectedLoss1);
+                    double expectedLoss = calculateExpectedLoss(underlyingQuote, optionContract1);
+                    ratio1 = optionContract1.getMarketData().getMid().doubleValue() / expectedLoss;
                 }
 
                 double ratio2;
                 {
-                    double delta2 = Math.abs(calculateDelta(underlyingQuote, optionContract2, interestRate.doubleValue()));
-                    double expectedLoss2 = optionContract2.getStrike().doubleValue() * 100.0;
-                    ratio2 = optionContract2.getMarketData().getMid().doubleValue() / (delta2 * expectedLoss2);
+                    double expectedLoss = calculateExpectedLoss(underlyingQuote, optionContract2);
+                    ratio2 = optionContract2.getMarketData().getMid().doubleValue() / expectedLoss;
                 }
                 return Double.compare(ratio2, ratio1);
             }).toList();
@@ -231,11 +252,25 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 Double riskAdjustedPrice=optionContract.getMarketData().getMid().doubleValue() / (delta)*optionContract.getStrike().doubleValue()*100.0;
                 values.put("RiskAdjustedPrice",new BigDecimal(riskAdjustedPrice).toPlainString());
 
+                // this logic should be added to a filter
+                double expectedLoss =calculateExpectedLoss(underlyingQuote,optionContract);
+                double returnsAtInterestRate = expectedLoss*(interestRate.doubleValue())*getDcc(asOfDate,optionContract);
+                boolean interestRateReturn= optionContract.getStrike().doubleValue()*100.0 > (returnsAtInterestRate);
+                values.put("expectedLoss",new BigDecimal(expectedLoss).toPlainString());
+                values.put("returnsAtInterestRate",new BigDecimal(returnsAtInterestRate).toPlainString());
+                values.put("interestRateReturn",Boolean.valueOf(interestRateReturn).toString());
+
                 results.add(values);
             });
         }
 
         return results;
+    }
+
+    private static double calculateExpectedLoss(double underlyingQuote, OptionContract optionContract2) {
+        double delta = Math.abs(calculateDelta(underlyingQuote, optionContract2, interestRate.doubleValue()));
+        double payout = optionContract2.getStrike().doubleValue() * 100.0;
+        return payout*delta;
     }
 
 
